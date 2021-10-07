@@ -9,7 +9,7 @@ public class TriforkMessage extends ValueObject{
         _content = content;
     }
 
-    public static TriforkMessage Create(String content)
+    public static TriforkMessage create(String content)
     {
         if (content == null || content.trim().isEmpty())
             throw new IllegalArgumentException("Content cannot be blank, empty, or null.");

@@ -35,6 +35,6 @@ public class TriforkMessageFactory {
             builder.append(_availableWords[wordIndex]);
         }
 
-        return TriforkMessage.Create(builder.toString());
+        return TriforkMessage.create(builder.toString());
     }
 }

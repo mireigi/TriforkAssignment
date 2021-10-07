@@ -16,7 +16,7 @@ public class TriforkMessage {
         _timestamp = timestamp;
     }
 
-    public static TriforkMessage Create(String content, Timestamp timestamp)
+    public static TriforkMessage create(String content, Timestamp timestamp)
     {
         if (content == null || content.trim().isEmpty())
             throw new IllegalArgumentException("Content cannot be blank, empty, or null.");

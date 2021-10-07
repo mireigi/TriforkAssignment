@@ -15,43 +15,43 @@ import trifork.messagereceiver.model.TriforkMessage;
 class TriforkMessageTests {
 
 	@Test
-	void testBlankContentThrows() {
+	void create_WhenContentIsBlank_Throws() {
         IllegalArgumentException exception = assertThrows(
             IllegalArgumentException.class,
-            () -> TriforkMessage.Create(" ", new Timestamp(System.currentTimeMillis()))
+            () -> TriforkMessage.create(" ", new Timestamp(System.currentTimeMillis()))
         );
         assertEquals("Content cannot be blank, empty, or null.", exception.getMessage());
 	}
 
 	@Test
-	void testEmptyContentThrows() {
+	void create_WhenContentIsEmpty_Throws() {
         IllegalArgumentException exception = assertThrows(
             IllegalArgumentException.class,
-            () -> TriforkMessage.Create("", new Timestamp(System.currentTimeMillis()))
+            () -> TriforkMessage.create("", new Timestamp(System.currentTimeMillis()))
         );
         assertEquals("Content cannot be blank, empty, or null.", exception.getMessage());
 	}
 
 	@Test
-	void testNullContentThrows() {
+	void create_WhenContentIsNull_Throws() {
         IllegalArgumentException exception = assertThrows(
             IllegalArgumentException.class,
-            () -> TriforkMessage.Create(null, new Timestamp(System.currentTimeMillis()))
+            () -> TriforkMessage.create(null, new Timestamp(System.currentTimeMillis()))
         );
         assertEquals("Content cannot be blank, empty, or null.", exception.getMessage());
 	}
 
 	@Test
-	void testNullTimestampThrows() {
+	void create_WhenTimestampIsNull_Throws() {
         IllegalArgumentException exception = assertThrows(
             IllegalArgumentException.class,
-            () -> TriforkMessage.Create("Hello World!", null)
+            () -> TriforkMessage.create("Hello World!", null)
         );
         assertEquals("Timestamp cannot be null.", exception.getMessage());
 	}
 
 	@Test
-	void testValidContentDoesNotThrow() {
-        assertDoesNotThrow(() -> TriforkMessage.Create("Hello World!", new Timestamp(System.currentTimeMillis())));
+	void create_WhenContentIsValid_DoesNotThrow() {
+        assertDoesNotThrow(() -> TriforkMessage.create("Hello World!", new Timestamp(System.currentTimeMillis())));
 	}
 }
