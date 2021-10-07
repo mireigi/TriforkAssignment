@@ -1,6 +1,6 @@
 package trifork.messagesender.model;
 
-public class TriforkMessage {
+public class TriforkMessage extends ValueObject{
     private String _content;
     public String getContent() { return _content; }
 
@@ -15,5 +15,12 @@ public class TriforkMessage {
             throw new IllegalArgumentException("Content cannot be blank, empty, or null.");
 
         return new TriforkMessage(content);
+    }
+
+    @Override
+    protected Object[] getEqualityComponents() {
+        return new Object[] {
+            _content
+        };
     }
 }
