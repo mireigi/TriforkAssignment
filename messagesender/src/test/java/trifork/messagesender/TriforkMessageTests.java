@@ -12,22 +12,22 @@ import trifork.messagesender.model.TriforkMessage;
 class TriforkMessageTests {
 
 	@Test
-	void testBlankContextThrows() {
+	void testBlankContentThrows() {
         assertThrows(IllegalArgumentException.class, () -> TriforkMessage.Create(" "));
 	}
 
 	@Test
-	void testEmptyContextThrows() {
+	void testEmptyContentThrows() {
         assertThrows(IllegalArgumentException.class, () -> TriforkMessage.Create(""));
 	}
 
 	@Test
-	void testNullContextThrows() {
+	void testNullContentThrows() {
         assertThrows(IllegalArgumentException.class, () -> TriforkMessage.Create(null));
 	}
 
 	@Test
-	void testValidContextDoesNotThrow() {
+	void testValidContentDoesNotThrow() {
         assertDoesNotThrow(() -> TriforkMessage.Create("Hello World!"));
 	}
 }
