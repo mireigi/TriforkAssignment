@@ -1,6 +1,8 @@
 package trifork.messagesender;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.stream.Stream;
@@ -17,8 +19,8 @@ import trifork.messagesender.model.ValueObject;
 class ValueObjectTests {
 
 	@ParameterizedTest
-    @MethodSource("provideInputsForTestUnequalityCheck")
-	void testUnequalityCheck(String nameA, int valueA, String nameB, int valueB) {
+    @MethodSource("provideInputsForDifferentValues")
+	void equals_WhenValuesAreDifferent_ReturnsFalse(String nameA, int valueA, String nameB, int valueB) {
 		TestClass sutA = new TestClass(nameA, valueA);
 		TestClass sutB = new TestClass(nameB, valueB);
 
@@ -26,7 +28,7 @@ class ValueObjectTests {
 	}
 
 	@Test
-	void testEqualityCheck() {
+	void equals_WhenValuesAreEqual_ReturnsTrue() {
 		String name = "Hello World!";
         int value = 10;
 		TestClass sutA = new TestClass(name, value);
@@ -35,7 +37,26 @@ class ValueObjectTests {
 		assertTrue(sutA.equals(sutB));
 	}
 
-    private static Stream<Arguments> provideInputsForTestUnequalityCheck() {
+    @ParameterizedTest
+    @MethodSource("provideInputsForDifferentValues")
+    void hashCode_WhenValuesAreDifferent_ReturnsDifferentHashCodes(String nameA, int valueA, String nameB, int valueB) {
+		TestClass sutA = new TestClass(nameA, valueA);
+		TestClass sutB = new TestClass(nameB, valueB);
+
+		assertNotEquals(sutA.hashCode(), sutB.hashCode());
+    }
+
+	@Test
+	void hashCode_WhenValuesAreEqual_ReturnsEqualHashCodes() {
+		String name = "Hello World!";
+        int value = 10;
+		TestClass sutA = new TestClass(name, value);
+		TestClass sutB = new TestClass(name, value);
+
+        assertEquals(sutA.hashCode(), sutB.hashCode());
+	}
+
+    private static Stream<Arguments> provideInputsForDifferentValues() {
         return Stream.of(
           Arguments.of("Hello World!", 10, "Lorem Ipsum", 10),
           Arguments.of("Hello World!", 10, "Hello World!", 20)
