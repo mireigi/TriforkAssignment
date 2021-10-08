@@ -12,9 +12,9 @@ import trifork.messagesender.model.TriforkMessageFactory;
 public class Runner implements ApplicationRunner  {
 
     private final MessagingService _service;
-    private final MessagingServiceConfiguration _config;
+    private final TriforkConfiguration _config;
 
-    public Runner(MessagingService service, MessagingServiceConfiguration config) {
+    public Runner(MessagingService service, TriforkConfiguration config) {
         _service = service;
         _config = config;
     }
