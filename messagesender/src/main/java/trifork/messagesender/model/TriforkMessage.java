@@ -1,6 +1,8 @@
 package trifork.messagesender.model;
 
-public class TriforkMessage extends ValueObject{
+import trifork.common.core.ValueObject;
+
+public class TriforkMessage extends ValueObject {
     private String _content;
     public String getContent() { return _content; }
 

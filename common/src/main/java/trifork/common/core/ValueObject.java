@@ -1,4 +1,4 @@
-package trifork.messagesender.model;
+package trifork.common.core;
 
 import java.util.Objects;
 

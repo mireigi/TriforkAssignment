@@ -1,4 +1,4 @@
-package trifork.messagesender;
+package trifork.common;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import trifork.messagesender.model.ValueObject;
+import trifork.common.core.ValueObject;
 
 @SpringBootTest
 class ValueObjectTests {
