@@ -6,7 +6,6 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,40 +13,41 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "trifork.common")
+@ComponentScan(basePackages = "trifork.messagesender.application")
 public class MessagesenderApplication {
 
-	static final String topicExchangeName = "trifork-exchange";
-
-	static final String queueName = "spring-boot";
-
 	@Bean
-	Queue queue() {
-		return new Queue(queueName, false);
+	MessagingServiceConfiguration config() {
+		return new MessagingServiceConfiguration(
+			"trifork-exchange",
+			"mq.app", 
+			"spring-boot",
+		 	new String[] { "Lorem", "Ipsum", "Dolor", "Sit", "Amet" }
+		 );
 	}
 
 	@Bean
-	TopicExchange exchange() {
-		return new TopicExchange(topicExchangeName);
+	Binding binding(MessagingServiceConfiguration config) {
+		String queueName = config.getQueueName();
+		String key = config.getRoutingKey() + ".#";
+		String exchangeName = config.getExchangeName();
+
+		Queue queue = new Queue(queueName, false);
+		TopicExchange exchange = new TopicExchange(exchangeName);
+
+		return BindingBuilder.bind(queue).to(exchange).with(key);
 	}
 
 	@Bean
-	Binding binding(Queue queue, TopicExchange exchange) {
-		return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#");
-	}
-
-	@Bean
-	SimpleMessageListenerContainer container(ConnectionFactory connectionFactory) {
+	SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessagingServiceConfiguration config) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
+		
+		String queueName = config.getQueueName();
 		container.setQueueNames(queueName);
-		// container.setMessageListener(listenerAdapter);
+		
 		return container;
 	}
-
-	// @Bean
-	// MessageListenerAdapter listenerAdapter(Receiver receiver) {
-	// 	return new MessageListenerAdapter(receiver, "receiveMessage");
-	// }
 
 	public static void main(String[] args) {
 		SpringApplication.run(MessagesenderApplication.class, args);
