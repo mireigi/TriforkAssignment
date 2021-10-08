@@ -17,8 +17,8 @@ import org.springframework.context.annotation.ComponentScan;
 public class MessagesenderApplication {
 
 	@Bean
-	MessagingServiceConfiguration config() {
-		return new MessagingServiceConfiguration(
+	TriforkConfiguration config() {
+		return new TriforkConfiguration(
 			"trifork-exchange",
 			"mq.app", 
 			"spring-boot",
@@ -27,7 +27,7 @@ public class MessagesenderApplication {
 	}
 
 	@Bean
-	Binding binding(MessagingServiceConfiguration config) {
+	Binding binding(TriforkConfiguration config) {
 		String queueName = config.getQueueName();
 		String key = config.getRoutingKey() + ".#";
 		String exchangeName = config.getExchangeName();
@@ -39,7 +39,7 @@ public class MessagesenderApplication {
 	}
 
 	@Bean
-	SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessagingServiceConfiguration config) {
+	SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, TriforkConfiguration config) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
 		

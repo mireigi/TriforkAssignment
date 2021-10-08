@@ -1,6 +1,6 @@
 package trifork.messagesender;
 
-public class MessagingServiceConfiguration {
+public class TriforkConfiguration {
     private final String _exchangeName;
     public String getExchangeName() { return _exchangeName; }
 
@@ -13,7 +13,7 @@ public class MessagingServiceConfiguration {
     private final String[] _availableWords;
     public String[] getAvailableWords() { return _availableWords; }
 
-    public MessagingServiceConfiguration(String exchangeName, String routingKey, String queueName, String[] availableWords) {
+    public TriforkConfiguration(String exchangeName, String routingKey, String queueName, String[] availableWords) {
         _exchangeName = exchangeName;
         _routingKey = routingKey;
         _queueName = queueName;
