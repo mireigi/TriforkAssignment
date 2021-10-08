@@ -1,6 +1,6 @@
 package trifork.messagereceiver.application;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ public class MessagingService {
 
     public MessageActionEnum determineAction(TriforkMessage message)
     {
-        if (message.isOutdated(new Date()))
+        if (message.isOutdated(Instant.now()))
             return MessageActionEnum.Discard;
         
         if (message.isTimestampOdd())
@@ -31,20 +31,34 @@ public class MessagingService {
         return MessageActionEnum.Persist;
     }
 
-    public void sendMessage(TriforkMessage message, String exchange, String routingKey)
-    {
+    public Result requeueMessage(TriforkMessage message, String exchange, String routingKey) {
+        if (determineAction(message) != MessageActionEnum.Requeue)
+        {
+            Log.warn("The message is not valid for requeuing. Aborting requeue.");
+            return Result.Fail("The message is not valid for requeuing.");
+        }
+
         Log.info("Sending message '{}'.", message.getContent());
          
-         Result result = _gateway.sendMessage(exchange, routingKey, message.getContent());
+        Result gatewayResult = _gateway.sendMessage(exchange, routingKey, message.getContent());
 
-         if (result.isSuccess())
-             Log.info("Message successfully sent.");
-         else
-             Log.error("Message was not sent. Cause: '{}'.", result.getErrorMessage());
+        if (gatewayResult.isSuccess())
+            Log.info("Message successfully sent.");
+        else
+            Log.error("Message was not sent. Cause: '{}'.", gatewayResult.getErrorMessage());
+
+        return gatewayResult;
     }
 
-    public void persistMessage(TriforkMessage message) {
+    public Result persistMessage(TriforkMessage message) {
+        if (determineAction(message) != MessageActionEnum.Persist)
+        {
+            Log.warn("The message is not valid for persisting. Aborting persistance.");
+            return Result.Fail("The message is not valid for persisting.");
+        }
+
         // TODO: Save message to database
+        return Result.Success();
     }
 
 }
