@@ -62,7 +62,7 @@ class TriforkMessageTests {
     @Test
     void isOutdated_WhenOlderThanOneMinute_ReturnsTrue() {
         Instant timestampNow = Instant.now();
-        Instant timestampPreviously = timestampNow.minusMillis(60001);
+        Instant timestampPreviously = timestampNow.minusSeconds(61);
         TriforkMessage sut = TriforkMessage.create("Lorem Ipsum", timestampPreviously);
 
         assertTrue(sut.isOutdated(timestampNow));
@@ -71,7 +71,7 @@ class TriforkMessageTests {
     @Test
     void isOutdated_WhenYoungerThanOneMinute_ReturnsFalse() {
         Instant timestampNow = Instant.now();
-        Instant timestampPreviously = timestampNow.minusMillis(59999);
+        Instant timestampPreviously = timestampNow.minusSeconds(59);
         TriforkMessage sut = TriforkMessage.create("Lorem Ipsum", timestampPreviously);
 
         assertFalse(sut.isOutdated(timestampNow));
@@ -80,7 +80,7 @@ class TriforkMessageTests {
     @Test
     void isOutdated_WhenExactlyOneMinuteOld_ReturnsFalse() {
         Instant timestampNow = Instant.now();
-        Instant timestampPreviously = timestampNow.minusMillis(60000);
+        Instant timestampPreviously = timestampNow.minusSeconds(60);
         TriforkMessage sut = TriforkMessage.create("Lorem Ipsum", timestampPreviously);
 
         assertFalse(sut.isOutdated(timestampNow));
