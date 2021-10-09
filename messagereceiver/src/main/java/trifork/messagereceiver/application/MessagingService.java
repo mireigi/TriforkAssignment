@@ -4,11 +4,13 @@ import java.time.Instant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import trifork.common.IMessageQueueGateway;
 import trifork.common.core.Result;
 import trifork.messagereceiver.model.TriforkMessage;
 
+@Component
 public class MessagingService {
     private static final Logger Log = LoggerFactory.getLogger(MessagingService.class);
 
@@ -38,14 +40,14 @@ public class MessagingService {
             return Result.Fail("The message is not valid for requeuing.");
         }
 
-        Log.info("Sending message '{}'.", message.getContent());
+        Log.info("Requeueing message '{}'.", message.getContent());
          
         Result gatewayResult = _gateway.sendMessage(exchange, routingKey, message.getContent());
 
         if (gatewayResult.isSuccess())
-            Log.info("Message successfully sent.");
+            Log.info("Message successfully requeued.");
         else
-            Log.error("Message was not sent. Cause: '{}'.", gatewayResult.getErrorMessage());
+            Log.error("Message was not requeued. Cause: '{}'.", gatewayResult.getErrorMessage());
 
         return gatewayResult;
     }
