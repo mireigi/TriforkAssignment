@@ -1,5 +1,7 @@
 package trifork.messagereceiver;
 
+import javax.naming.ConfigurationException;
+
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -11,9 +13,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
+import trifork.messagereceiver.data.TriforkDataContext;
+
 @SpringBootApplication
 @ComponentScan(basePackages = "trifork.common")
 @ComponentScan(basePackages = "trifork.messagereceiver.application")
+@ComponentScan(basePackages = "trifork.messagereceiver.data")
 public class MessagereceiverApplication {
 
 	@Bean
@@ -52,6 +57,10 @@ public class MessagereceiverApplication {
 		
 		return container;
 	}
+
+    @Bean TriforkDataContext dataContext() throws ConfigurationException {
+        return TriforkDataContext.init("trifork.db");
+    }
     
 	public static void main(String[] args) {
 		SpringApplication.run(MessagereceiverApplication.class, args);
