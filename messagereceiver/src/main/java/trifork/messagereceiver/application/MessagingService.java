@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import trifork.common.IMessageQueueGateway;
 import trifork.common.core.Result;
+import trifork.messagereceiver.data.IMessageRepository;
 import trifork.messagereceiver.model.TriforkMessage;
 
 @Component
@@ -15,11 +16,13 @@ public class MessagingService {
     private static final Logger Log = LoggerFactory.getLogger(MessagingService.class);
 
     private final IMessageQueueGateway _gateway;
+    private final IMessageRepository _messageRepository;
 
-    public MessagingService(IMessageQueueGateway gateway) {
+    public MessagingService(IMessageQueueGateway gateway, IMessageRepository messageRepository) {
         super();
 
         _gateway = gateway;
+        _messageRepository = messageRepository;
     }
 
     public MessageActionEnum determineAction(TriforkMessage message)
@@ -59,8 +62,14 @@ public class MessagingService {
             return Result.Fail("The message is not valid for persisting.");
         }
 
-        // TODO: Save message to database
-        return Result.Success();
+        Result result = _messageRepository.add(message);
+
+        if (result.isSuccess())
+            return result;
+        
+        // TODO: Decide on retry flow
+        // Discuss possibilities at job interview
+        return result;
     }
 
 }
