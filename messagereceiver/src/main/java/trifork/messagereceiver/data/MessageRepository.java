@@ -29,11 +29,14 @@ public class MessageRepository implements IMessageRepository {
         
         Result result = _dataContext.executeSql(sql);
         
-        if (result.isSuccess())
+        if (result.isSuccess()) {
+            Log.info("Message successfully added to database.");
             return result;
+        }
         
         // TODO: Decide on retry flow
         // Discuss possibilities at job interview
+        Log.error("Message was not added to database.");
         return result;
     }
 
