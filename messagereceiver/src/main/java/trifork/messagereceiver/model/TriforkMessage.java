@@ -7,10 +7,10 @@ import trifork.common.core.ValueObject;
 public class TriforkMessage extends ValueObject {
     private static final int ONE_MINUTE = 60;
 
-    private String _content;
+    private final String _content;
     public String getContent() { return _content; }
 
-    private Instant _timestamp;
+    private final Instant _timestamp;
     public Instant getTimestamp() { return _timestamp; }
 
     private TriforkMessage(String content, Instant timestamp) {

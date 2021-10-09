@@ -3,7 +3,7 @@ package trifork.messagesender.model;
 import trifork.common.core.ValueObject;
 
 public class TriforkMessage extends ValueObject {
-    private String _content;
+    private final String _content;
     public String getContent() { return _content; }
 
     private TriforkMessage(String content) {

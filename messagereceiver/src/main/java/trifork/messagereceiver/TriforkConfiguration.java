@@ -1,13 +1,13 @@
 package trifork.messagereceiver;
 
 public class TriforkConfiguration {
-    private String _exchangeName;
+    private final String _exchangeName;
     public String getExchangeName() { return _exchangeName; }
 
-    private String _routingKey;
+    private final String _routingKey;
     public String getRoutingKey() { return _routingKey; }
 
-    private String _queueName;
+    private final String _queueName;
     public String getQueueName() { return _queueName; }
 
     public TriforkConfiguration(String exchangeName, String routingKey, String queueName) {

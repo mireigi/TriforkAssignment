@@ -11,8 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-import trifork.messagereceiver.application.MessagingService;
-
 @SpringBootApplication
 @ComponentScan(basePackages = "trifork.common")
 @ComponentScan(basePackages = "trifork.messagereceiver.application")
@@ -38,11 +36,6 @@ public class MessagereceiverApplication {
 
 		return BindingBuilder.bind(queue).to(exchange).with(key);
 	}
-
-    // @Bean
-    // Receiver receiver(MessagingService service, TriforkConfiguration config) {
-    //     return new Receiver(service, config);
-    // }
 
 	@Bean
 	SimpleMessageListenerContainer container(

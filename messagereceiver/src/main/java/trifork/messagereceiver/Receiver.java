@@ -18,8 +18,8 @@ import trifork.messagereceiver.model.TriforkMessage;
 public class Receiver implements MessageListener  {
     private static final Logger Log = LoggerFactory.getLogger(Receiver.class);
 
-    private MessagingService _service;
-    private TriforkConfiguration _config;
+    private final MessagingService _service;
+    private final TriforkConfiguration _config;
 
     public Receiver(MessagingService service, TriforkConfiguration config) {
         super();

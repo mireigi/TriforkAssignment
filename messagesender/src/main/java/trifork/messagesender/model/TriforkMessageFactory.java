@@ -3,13 +3,8 @@ package trifork.messagesender.model;
 import java.util.Random;
 
 public class TriforkMessageFactory {
-    private String[] _availableWords = new String[] {
-        "Lorem", "Ipsum", "Dolor", "Sit", "Amet",
-        "Hello", "World", "One", "Two", "Three",
-        "Buzzword", "Language", "Github", "Java"
-    };
-
-    private Random _randomizer;
+    private final String[] _availableWords;
+    private final Random _randomizer;
 
     public TriforkMessageFactory(String[] availableWords) {
         super();
