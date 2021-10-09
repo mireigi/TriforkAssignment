@@ -1,5 +1,9 @@
 package trifork.common;
 
+import java.time.Instant;
+import java.util.Date;
+
+import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +23,14 @@ public class MessageQueueGateway implements IMessageQueueGateway {
     public Result sendMessage(String exchange, String routingKey, String message)
     {
         try {
-            _rabbitTemplate.convertAndSend(exchange, routingKey, message);
+            MessagePostProcessor postProcessor = msg -> {
+                Date timestamp = Date.from(Instant.now());
+                msg.getMessageProperties().setTimestamp(timestamp);
+                msg.getMessageProperties().setHeader("timestamp", timestamp);
+                return msg;
+            };
+
+            _rabbitTemplate.convertAndSend(exchange, routingKey, message, postProcessor);
 
             return Result.Success();
         }
