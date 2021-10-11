@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>trifork</groupId>
 	<artifactId>messagesender</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>messagesender</name>
     <packaging>jar</packaging>
 	<description>Message Producer for Trifork job opportunity</description>
