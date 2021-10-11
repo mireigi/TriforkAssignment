@@ -12,7 +12,8 @@
 	<artifactId>messagesender</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>messagesender</name>
-	<description>Demo project for Spring Boot</description>
+    <packaging>jar</packaging>
+	<description>Message Producer for Trifork job opportunity</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
