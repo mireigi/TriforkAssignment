@@ -3,6 +3,7 @@ package trifork.messagereceiver.data;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -18,7 +19,7 @@ public class TriforkDataContext {
     
     private static final String MESSAGES_TABLENAME = "Messages";
     
-    private final String _databaseFileName; // = "trifork.dk";
+    private final String _databaseFileName;
 
     private TriforkDataContext(String databaseFileName) {
         super();
@@ -40,15 +41,29 @@ public class TriforkDataContext {
         throw new ConfigurationException("Database initilization unsuccessful.");
     }
 
-    public Result executeSql(String sql) {
+    public Result executeSql(String sql, Object[] params) {
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         try {
             conn = openConnection();
             conn.setAutoCommit(false);
 
-            stmt = conn.createStatement();            
-            stmt.execute(sql);
+            stmt = conn.prepareStatement(sql);
+
+            for (int i = 0; i < params.length; i++) {
+                Object param = params[i];
+
+                if (param instanceof Integer)
+                    stmt.setInt(i + 1, (int)param);
+                else if (param instanceof Long)
+                    stmt.setLong(i + 1, (long)param);
+                else if (param instanceof Boolean)
+                    stmt.setBoolean(i + 1, (boolean)param);
+                else
+                    stmt.setString(i + 1, param.toString());
+            }
+
+            stmt.execute();
 
             conn.commit();
             

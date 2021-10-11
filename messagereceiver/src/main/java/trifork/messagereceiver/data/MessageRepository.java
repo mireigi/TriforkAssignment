@@ -20,14 +20,14 @@ public class MessageRepository implements IMessageRepository {
     }
 
     public Result add(TriforkMessage message) {
-        String sql = new StringBuilder()
-            .append("INSERT INTO Messages(content,timestamp) VALUES(")
-            .append("'" + message.getContent() + "',")
-            .append("" + message.getTimestamp().getEpochSecond() + "")
-            .append(");")
-            .toString();
+        String sql = "INSERT INTO Messages(content,timestamp) VALUES(?,?);";
         
-        Result result = _dataContext.executeSql(sql);
+        Object[] params = new Object[] {
+            message.getContent(),
+            message.getTimestamp().getEpochSecond()
+        };
+        
+        Result result = _dataContext.executeSql(sql, params);
         
         if (result.isSuccess()) {
             Log.info("Message successfully added to database.");
